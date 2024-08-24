@@ -1,7 +1,12 @@
 const express = require('express') //รับ express
+
+// reuire fs เอา readdirSync เอาอ่าน All 7Routers
+const {readdirSync} = require('fs')
+
+
 //เรียก Routes มาใช้
 const productRouters = require('./Routes/product')
-
+const authRouters = require('./Routes/auth')
 
 const app = express(); //สร้างตัวแปรมา run express
 
@@ -13,9 +18,17 @@ const app = express(); //สร้างตัวแปรมา run express
 //     // res.send('Hello world')
 // }) ถ้าเรามี enpoint เยอะๆ
 
-// Rout 2
-// สร้าง folder Routes
-app.use('/api',productRouters) //จะเป็น part /api/product
 
+// Route 2
+// สร้าง folder Routes
+// app.use('/api',productRouters) //จะเป็น part /api/product
+// app.use('/api',authRouters) // สร้างอีกละ
+
+//Route 3 auto Endpoint
+
+readdirSync('./Routes').map((r) => {
+    // console.log(`this is "${r}"`) // auth.js product.js
+    app.use('/api',require(`./Routes/${r}`))
+})
 
 app.listen(5000, ()=>{console.log("Server Running on port 5000")}) //ตัว runserver (เลข port , call back function)
