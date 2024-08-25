@@ -1,24 +1,20 @@
 const express = require('express')
 const router = express.Router() //ใช้ Router เป็นเส้นทางเชื่อมกับ path ต่างๆ
 
-router.get('/product', (req, res) => {
-    res.send('Hello Product Endpoint')
-});
+//import controller
+const {read,list,update,create,remove} = require('../Controllers/product')
+
+router.get('/product', list);
 
 //ส่ง ID
-router.get('/product/:id', (req, res) => {
-    res.send('Hello 1 Product')
-});
+// router.get('/product/:id', (req, res) => {
+//     res.send('Hello 1 Product')
+// });
+router.get('/product/:id', read);
 
-router.post('/product', (req, res) => {
-    res.send('Hello Post')
-})
+router.post('/product', create)
 
-router.put('/product/:id', (req, res) => {
-    res.send('hello id')
-})
+router.put('/product/:id', update)
 
-router.delete('/product', (req, res) => {
-    res.json({name:"Hello Nut"})
-})
+router.delete('/product/:id',remove)
 module.exports = router //ให้ไฟล์อื่นสามารถใช้ file นี้ได้
