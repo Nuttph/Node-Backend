@@ -12,4 +12,5 @@ const productSchema = mongoose.Schema({
 }, { timestamps: true }) // timestamps ช่วยเรื่อง เวลา update
 
 
-module.exports = mongoose.model('products',productSchema) // (ชื่อฟิว , ตัว Schema)
+module.exports = mongoose.model('products', productSchema) // (ชื่อฟิว , ตัว Schema)
+//ชื่อฟิวคือ เหมือนชื่อไฟล์ใน folder mongodb

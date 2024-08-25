@@ -1,9 +1,6 @@
 //import model เข้ามาใช้
 const Product = require('../Models/Product')
 
-
-
-
 //สร้าง Routes 3
 exports.read = async (req, res) => {
     try {
