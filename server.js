@@ -1,9 +1,13 @@
+require('dotenv').config();
 const express = require('express') //รับ express
 
 //ลองใช้ morgan ไว้ใต้ app | ใช้ cors เดินทางสะดวก | ใช้ body parse
 const morgan = require('morgan')
 const cors = require('cors')
 const bodyParse = require('body-parser')
+//connect db
+const connectDB = require('./Config/db')
+
 
 // reuire fs เอา readdirSync เอาอ่าน All 7Routers
 const {readdirSync} = require('fs')
@@ -14,6 +18,9 @@ const productRouters = require('./Routes/product')
 const authRouters = require('./Routes/auth')
 
 const app = express(); //สร้างตัวแปรมา run express
+
+connectDB() //ใช้ func connectDB
+
 app.use(morgan('dev')) // วันเวลา run brownser || 'dev'
 app.use(cors()) //ตัวผ่านทางสะดวกกกกก
 app.use(bodyParse.json({limit:'10mb'})) // .json กำหนดขนาด 10mb มีแล้วอุ่นใจจริงๆ
