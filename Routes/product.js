@@ -3,8 +3,9 @@ const router = express.Router() //ใช้ Router เป็นเส้นท�
 
 //import controller
 const {read,list,update,create,remove} = require('../Controllers/product')
+const { auth } = require('../Middleware/auth')
 
-router.get('/product', list);
+router.get('/product',auth, list);
 
 //ส่ง ID
 // router.get('/product/:id', (req, res) => {

@@ -23,13 +23,11 @@ exports.register = async (req, res) => {
             name,
             password
         })
-        user.password = await bcrypt.hash(password,salt)
-        
+        user.password = await bcrypt.hash(password, salt)
         // console.log(salt)
-        
         //3. Save
         user.save()
-        
+
         res.send(req.body)
 
     } catch (err) {
@@ -42,11 +40,31 @@ exports.login = async (req, res) => {
     try {
         //code
         //1. check user-password
-
-        //2. Payload เตรียมข้อมูลส่งให้หน้าบ้าน
-        
-        //3. Generate token
-        res.send("Hello login")
+        const { name, password } = req.body
+        var user = await User.findOneAndUpdate({ name }, { new: true })
+        console.log(user)
+        console.log(user.password)
+        if (user) {
+            const isMatch = await bcrypt.compare(password, user.password)
+            console.log(isMatch)
+            if (!isMatch) {
+                return res.status(400).send('Password Invalid!')
+            }
+            //ถ้า password ถูก สร้าง Payload ต่อ
+            //2. Payload เตรียมข้อมูลส่งให้หน้าบ้าน
+            var payload = {
+                user: {
+                    name:user.name,
+                }
+            }
+            //3. Generate token
+            jwt.sign(payload, 'jwtsecret', { expiresIn: 20 }, (err, token) => {
+                if (err) throw err;
+                res.json({token,payload})
+            }) // 10วิ callback function
+        } else {
+            return res.status(400).send('User not found!!')
+        }
     } catch (err) {
         console.log(err)
         res.status(500).send('Error')
