@@ -65,7 +65,7 @@ exports.login = async (req, res) => {
       return res.status(400).send("User not found!!");
     }
   } catch (err) {
-    console.log(err);
+    console.log("nuttaphon err", err);
     res.status(500).send("Error");
   }
 };
